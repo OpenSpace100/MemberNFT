@@ -5,15 +5,25 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract OSMembers is ERC721, ERC721URIStorage, Ownable {
+contract OSM is ERC721, ERC721URIStorage, Ownable {
     uint256 private _nextTokenId;
+    mapping (address => bool) admins;
 
     constructor(address initialOwner)
         ERC721("OpenSpace", "OS")
         Ownable(initialOwner)
     {}
 
-    function safeMint(address to, string memory uri) public onlyOwner {
+    function addAdmin(address to) public onlyOwner {
+        admins[to] = true;
+    }
+
+    modifier onlyadmin(address to) {
+        require(admins[to] = true, "You are not admin");
+        _;
+    }
+
+    function safeMint(address to, string memory uri) public onlyOwner onlyadmin(to){
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
