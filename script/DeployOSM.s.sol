@@ -2,9 +2,9 @@
 pragma solidity ^0.8.20;
 
 import "forge-std/Script.sol";
-import "../src/osnft.sol";
+import "../src/OSMembers.sol";
 
-contract DeployOSs1 is Script {
+contract DeployOSM is Script {
     function run() external {
         vm.startBroadcast();
         address initialOwner = msg.sender;
